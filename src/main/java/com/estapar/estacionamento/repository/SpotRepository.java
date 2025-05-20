@@ -8,3 +8,4 @@ import java.util.Optional;
 public interface SpotRepository extends JpaRepository<Spot, Long> {
     Optional<Spot> findByLatAndLng(Double lat, Double lng);
 }
+

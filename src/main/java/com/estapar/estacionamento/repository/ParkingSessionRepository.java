@@ -14,3 +14,4 @@ public interface ParkingSessionRepository extends JpaRepository<ParkingSession, 
 
     List<ParkingSession> findBySectorAndExitTimeBetween(Sector sector, LocalDateTime start, LocalDateTime end);
 }
+
