@@ -7,8 +7,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: estacionamento
-      POSTGRES_USER: devuserAdmin
-      POSTGRES_PASSWORD: devpassword
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devpass
     ports:
       - "5432:5432"
     volumes:
