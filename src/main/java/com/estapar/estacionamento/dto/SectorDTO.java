@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SectorDTO {
     private String sector;
-    private Double basePrice;
+    private BigDecimal basePrice;
     private Integer max_capacity;
     private String open_hour;
     private String close_hour;
