@@ -3,6 +3,7 @@ package com.estapar.estacionamento.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @Entity
@@ -17,7 +18,7 @@ public class Sector {
     @Id
     private String name;
 
-    private Double basePrice;
+    private BigDecimal basePrice;
 
     private Integer maxCapacity;
 

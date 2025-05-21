@@ -47,33 +47,17 @@ public class GarageService {
             }
 
             log.info("Total de setores recebidos: {}", response.getGarage().size());
-            for (SectorDTO s : response.getGarage()) {
-                Sector sector = new Sector(
-                        s.getSector(),
-                        s.getBasePrice(),
-                        s.getMax_capacity(),
-                        LocalTime.parse(s.getOpen_hour()),
-                        LocalTime.parse(s.getClose_hour()),
-                        s.getDuration_limit_minutes(),
-                        0
-                );
+            for (SectorDTO dto : response.getGarage()) {
+                Sector sector = mapToSector(dto);
                 sectorRepository.save(sector);
                 log.debug("Setor salvo: {}", sector.getName());
             }
 
             log.info("Total de vagas recebidas: {}", response.getSpots().size());
-            for (SpotDTO sp : response.getSpots()) {
-                Spot spot = new Spot();
-                spot.setLat(sp.getLat());
-                spot.setLng(sp.getLng());
-                spot.setOccupied(false);
-
-                Sector sector = sectorRepository.findById(sp.getSector())
-                        .orElseThrow(() -> new GarageLoadException("Setor não encontrado para ID: " + sp.getSector()));
-                spot.setSector(sector);
-
+            for (SpotDTO dto : response.getSpots()) {
+                Spot spot = mapToSpot(dto);
                 spotRepository.save(spot);
-                log.debug("Vaga salva no setor {}: ({}, {})", sector.getName(), sp.getLat(), sp.getLng());
+                log.debug("Vaga salva no setor {}: ({}, {})", spot.getSector().getName(), spot.getLat(), spot.getLng());
             }
 
             log.info("Carga de dados da garagem finalizada com sucesso.");
@@ -83,4 +67,30 @@ public class GarageService {
             throw new GarageLoadException("Erro ao carregar dados da garagem.", e);
         }
     }
+
+    Sector mapToSector(SectorDTO dto) {
+        return new Sector(
+                dto.getSector(),
+                dto.getBasePrice(),
+                dto.getMax_capacity(),
+                LocalTime.parse(dto.getOpen_hour()),
+                LocalTime.parse(dto.getClose_hour()),
+                dto.getDuration_limit_minutes(),
+                0
+        );
+    }
+
+    Spot mapToSpot(SpotDTO dto) {
+        Spot spot = new Spot();
+        spot.setLat(dto.getLat());
+        spot.setLng(dto.getLng());
+        spot.setOccupied(false);
+
+        Sector sector = sectorRepository.findById(dto.getSector())
+                .orElseThrow(() -> new GarageLoadException("Setor não encontrado para ID: " + dto.getSector()));
+        spot.setSector(sector);
+
+        return spot;
+    }
 }
+
