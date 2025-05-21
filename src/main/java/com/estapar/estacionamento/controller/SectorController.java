@@ -3,6 +3,8 @@ package com.estapar.estacionamento.controller;
 import com.estapar.estacionamento.dto.SectorResponseDTO;
 import com.estapar.estacionamento.mapper.SectorMapper;
 import com.estapar.estacionamento.repository.SectorRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/api/sectors")
+@Tag(name = "Setores", description = "Operações relacionadas aos setores da garagem")
 public class SectorController {
 
     private final SectorRepository sectorRepository;
@@ -22,6 +25,7 @@ public class SectorController {
     }
 
     @GetMapping
+    @Operation(summary = "Lista todos os setores")
     public ResponseEntity<List<SectorResponseDTO>> findAll() {
         log.info("Buscando todos os setores");
         var result = sectorRepository.findAll()
@@ -33,6 +37,7 @@ public class SectorController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Busca um setor pelo ID")
     public ResponseEntity<SectorResponseDTO> findById(@PathVariable String id) {
         log.info("Buscando setor pelo ID: {}", id);
         return sectorRepository.findById(id)
